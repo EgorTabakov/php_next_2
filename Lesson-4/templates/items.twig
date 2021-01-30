@@ -1,0 +1,8 @@
+{% for item in items %}
+    <li>{{ item.name }}{{ items.price }}</li>
+{% endfor %}
+{% if all %}
+    <script>
+        $('#show_more').hide();
+    </script>
+{% endif %}
