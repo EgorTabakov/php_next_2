@@ -1,0 +1,11 @@
+{% extends 'layout.twig' %}
+
+{% block title %}Goods{% endblock %}
+
+{% block content %}
+    <a href="/goods/add">Add good</a>
+
+    {% for item in goods %}
+        <li>{{ item.title }} - ${{ item.price }}</li>
+    {% endfor %}
+{% endblock %}
