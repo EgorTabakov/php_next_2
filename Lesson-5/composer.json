@@ -1,0 +1,16 @@
+{
+    "require": {
+        "twig/twig": "3.0"
+    },
+    "scripts": {
+        "dev": "php -S localhost:2712 -t public"
+    },
+    "config": {
+        "process-timeout": 0
+    },
+    "autoload": {
+        "psr-4": {
+            "MyApp\\": "src/"
+        }
+    }
+}
