@@ -3,19 +3,77 @@
 namespace MyApp\Controllers;
 
 use MyApp\Auth;
+use MyApp\Models\Admin;
+use MyApp\Models\Basket;
 use MyApp\Models\Goods;
 use MyApp\Models\History;
+use MyApp\Models\Orders;
 use MyApp\Models\Users;
 
 class AccountController extends Controller
 {
+    public function actionAdmin()
+    {
+
+
+        if (!($user = Auth::getUser())) {
+            $this->redirect('login');
+        }
+
+        $orders = Admin::get();
+
+        $this->render('account/admin.twig', [
+            'orders' => $orders,
+        ]);
+    }
+
+    public function actionOrder()
+    {
+        $basket = Basket::get();
+
+        if (!$basket['count']) {
+            $this->redirect('/catalog');
+        }
+
+        if (!($user = Auth::getUser())) {
+            $this->redirect('login');
+        }
+
+        $orderId = Orders::add($user['user_id'], $basket['goods']);
+
+        Basket::clear();
+        $this->render('account/order.twig', [
+            'orderId' => $orderId,
+
+        ]);
+    }
+
+    public function actionBasket()
+    {
+        $basket = Basket::get();
+
+        $goods = [];
+        $sum = 0;
+        foreach ($basket['goods'] as $id => $count) {
+            $good = Goods::getById($id);
+            $good['count'] = $count;
+            $sum += $good['sum'] = $count * $good['price'];
+            $goods[] = $good;
+        }
+
+        $this->render('account/basket.twig', [
+            'sum' => $sum,
+            'goods' => $goods,
+        ]);
+    }
+
     /**
      * /account
      */
     public function actionIndex()
     {
         if (!($user = Auth::getUser())) {
-            $this->redirect('/account/login');
+            $this->redirect('/login');
         }
         $history = History::getLast($user['user_id']);
         $this->render('account/index.twig', [
@@ -45,10 +103,10 @@ class AccountController extends Controller
         ]);
     }
 
-    public
-    function actionLogout()
+    public function actionLogout()
     {
         Auth::logout();
+        Basket::clear();
         $this->redirect('/');
     }
 

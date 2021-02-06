@@ -6,6 +6,17 @@ class Goods extends Model
 {
     const TABLE = 'goods';
 
+    public static function getById($id)
+    {
+        return self::db()->getById(self::TABLE, $id);
+    }
+    public static function getByCategory($id)
+    {
+        return self::link()
+            ->query('SELECT * FROM ' . self::TABLE . ' WHERE category_id=' .(int)$id)
+            ->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
     public static function add($title, $price)
     {
         if (empty($title) || empty($price)) {

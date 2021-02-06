@@ -1,0 +1,40 @@
+{% extends 'layout.twig' %}
+
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+    <table border="1" cellpadding="5" cellspacing="0">
+        {% for order in orders %}
+            <tr>
+                <td>№{{ order.id }}</td>
+                <td>{{ order.date }}</td>
+                <td>{{ order.order }}</td>
+                <td>{{ order.sum }}</td>
+                <td>
+                    <select {% if false == allowEdit %}disabled{% endif %} data-id="{{ order.id }}" class="js-status">
+                        {% for sId,sTitle in statuses %}
+                            <option {% if sId == order.status %}selected{% endif %} value="{{ sId }}">{{ sTitle }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    {% for good in order.goods %}
+                        <li><a target="_blank" href="/catalog/{{ good.categoryId }}/{{ good.id }}">{{ good.title }}</a> ${{ good.price}} x {{ good.count}} = ${{ good.sum }} </li>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <script>
+        $('.js-status').change(function () {
+            var id = $(this).data('id');
+            var status = $(this).val();
+            $.ajax({
+                url: '?status=' + status + '&id=' + id,
+            });
+        });
+    </script>
+{% endblock %}
