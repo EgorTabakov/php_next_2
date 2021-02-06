@@ -28,27 +28,20 @@ class App
     public function run()
     {
         session_start();
+
+        $path = $_SERVER['REQUEST_URI'];
+
+        $router = new Router($this->config['routing']);
+        [$controllerName, $actionName, $param] = $router->parse($path);
+
+
         $this->db = new DB($this->config['db']);
 
-        // ex1: /cont/act/123?foo=bar
-        // ex2: /cont/act/123
-        $path = $_SERVER['REQUEST_URI'];
-        // /cont/act/123/
-        [$url] = explode('?', $path);
-        // cont/act/123
-        $url = trim($url, '/');
-        [$controllerName, $actionName, $param] = explode('/', $url);
 
         if ($user = Auth::getUser()) {
             History::add($user['user_id'], $path);
         }
 
-        if (empty($controllerName)) {
-            $controllerName = 'index';
-        }
-        if (empty($actionName)) {
-            $actionName = 'index';
-        }
 
         $controllerClass = 'MyApp\Controllers\\' . ucfirst($controllerName) . 'Controller';
         $methodName = 'action' . ucfirst($actionName);
