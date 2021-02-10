@@ -1,0 +1,11 @@
+{{ _basket.count }} items in <a href="/basket">basket</a> |
+
+{% if _user %}
+    <b>Hello, {{ _user.user_login }}</b>
+    <a style="float:right" href="/account/logout">Logout</a>
+    <br/>
+{% else %}
+    <a style="float:right" href="/account/login">Login</a>
+    <br/>
+{% endif %}
+<hr/>

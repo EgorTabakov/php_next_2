@@ -1,0 +1,16 @@
+{% extends 'layout.twig' %}
+
+{% block title %}{{ category.title }}-{{ good.name }}{% endblock %}
+
+{% block content %}
+    <b><a href="/catalog" >Каталог</a> / <a href="/catalog/{{ category.id }}">{{ category.title }}</a> / {{ good.title }}<b/>
+    <br/><br/>
+    <b>{{ good.title }}</b>
+    <div>Price: ${{ good.price }}</div>
+    <div>{{ good.info }}</div>
+
+        <a href="../../img/{{ images.url }}" target="_blank"><img src="../../img/{{ images.url }}" alt="{{ images.title }}"></a>
+
+    <br/>
+    <a href="?add={{ good.id }}"><button>Add</button><a>
+{% endblock %}
