@@ -5,11 +5,18 @@ namespace MyApp\Models;
 class Goods extends Model
 {
     const TABLE = 'goods';
+    const TABLE_IMAGE = 'image';
 
     public static function getById($id)
     {
         return self::db()->getById(self::TABLE, $id);
     }
+
+    public static function getImageById($id)
+    {
+        return self::db()->getById(self::TABLE_IMAGE, $id);
+    }
+
     public static function getByCategory($id)
     {
         return self::link()

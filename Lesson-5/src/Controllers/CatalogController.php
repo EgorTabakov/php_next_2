@@ -41,12 +41,18 @@ class CatalogController extends Controller
         if (!($category = Catalog::getCategoryById($catId))) {
             $this->redirect('/catalog');
         }
+
         if (!($good = Goods::getById($goodId))) {
             $this->redirect('/catalog');
         }
+        $images = Goods::getImageById($goodId);
+
+
         $this->render('/catalog/good.twig', [
-            'category'=> $category,
+            'category' => $category,
             'good' => $good,
+            'images' => Goods::getImageById($goodId),
         ]);
+
     }
 }

@@ -44,7 +44,9 @@ class DB
     {
         try {
             return $this->link
-                ->query('SELECT * FROM ' . $tableName . ' WHERE id = ' . (int)$id)
+                ->query('SELECT * FROM ' . $tableName . ' WHERE id = ' . (int)$id
+
+                )
                 ->fetch(\PDO::FETCH_ASSOC);
         } catch (\Throwable $e) {
             return false;

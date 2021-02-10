@@ -38,7 +38,7 @@ class Router
 
     }
 
-    private static function filter(string $url): string
+    public static function filter(string $url): string
     {
         $parts = explode('/', $url);
         foreach ($parts as $k => $v) {
